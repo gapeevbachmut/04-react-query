@@ -1,0 +1,13 @@
+body {
+
+    background-image: url(/src/images/fon.jpg);
+
+
+    background-repeat: no-repeat;
+    /* background-position: top 200px; */
+    background-position-x: center;
+    background-position-y: -400px;
+    background-size: cover;
+    height: 100vh;
+
+}
