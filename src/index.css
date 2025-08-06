@@ -1,8 +1,8 @@
 body {
 
-    background-image: url(/src/images/fon.jpg);
+    /* background-image: url(/src/images/fon.jpg); */
 
-
+    background-color: wheat;
     background-repeat: no-repeat;
     /* background-position: top 200px; */
     background-position-x: center;
