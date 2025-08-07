@@ -9,7 +9,7 @@ export default function SearchBar({ onSubmit }: SearchBarProps) {
   const handleSubmit = (formData: FormData): void => {
     const query = formData.get('query') as string;
 
-    if (query === '') {
+    if (query.trim() === '') {
       toast.error('Будь ласка, введіть запит для пошуку..');
       return;
     }

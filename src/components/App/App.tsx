@@ -6,7 +6,6 @@ import { fetchMovies } from '../../services/movieService';
 import ReactPaginate from 'react-paginate';
 import css from './App.module.css';
 import SearchBar from '../SearchBar/SearchBar';
-import toast from 'react-hot-toast';
 import MovieGrid from '../MovieGrid/MovieGrid';
 import Loader from '../Loader/Loader';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
@@ -26,15 +25,16 @@ export default function App() {
     queryFn: () => fetchMovies(searchQuery, currentPage),
     enabled: !!searchQuery,
     placeholderData: keepPreviousData,
+    // onSuccess: data => {
+    //   if (data.results.length === 0) {
+    //     toast.error('За Вашим запитом не знайдено фільмів!');
+    //   }
+    // },
   });
 
   const totalPages = data?.total_pages || 0;
 
   const handleSearchBar = (query: string) => {
-    if (query.trim() === '') {
-      toast.error('Введіть запит для пошуку');
-      return;
-    }
     setSearchQuery(query);
     setCurrentPage(1);
   };
