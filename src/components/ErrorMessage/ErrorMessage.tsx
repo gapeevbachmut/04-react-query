@@ -4,5 +4,4 @@ export default function ErrorMessage() {
   return (
     <p className={css.text}>Сталася помилка, спробуйте будь ласка ще раз...</p>
   );
-  // There was an error, please try again
 }

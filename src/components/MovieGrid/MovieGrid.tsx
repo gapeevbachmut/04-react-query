@@ -1,7 +1,3 @@
-// Компонент MovieGrid - це список карток фільмів. Він приймає два пропси:
-// onSelect - функцію для обробки кліку на картку фільму;
-// movies - масив фільмів.
-
 import css from './MovieGrid.module.css';
 import { type Movie } from '../../types/movie';
 
@@ -13,13 +9,8 @@ interface MovieGridProps {
 export default function MovieGrid({ onSelect, movies }: MovieGridProps) {
   return (
     <ul className={css.grid}>
-      {/* Набір елементів списку з фільмами */}
       {movies.map(movies => (
-        <li
-          key={movies.id}
-          // onClick={openModal}      //  how  ---  ????
-          onClick={() => onSelect(movies)}
-        >
+        <li key={movies.id} onClick={() => onSelect(movies)}>
           <div className={css.card}>
             <img
               className={css.image}
@@ -34,17 +25,3 @@ export default function MovieGrid({ onSelect, movies }: MovieGridProps) {
     </ul>
   );
 }
-
-//
-//
-//
-//
-// <ul>
-//   {movie.map(({ id, title }) => (
-//     <li key={id}>
-//       <a href="" target="_blank">
-//         {title}
-//       </a>
-//     </li>
-//   ))}
-// </ul>

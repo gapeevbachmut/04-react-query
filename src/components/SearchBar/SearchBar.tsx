@@ -10,7 +10,7 @@ export default function SearchBar({ onSubmit }: SearchBarProps) {
     const query = formData.get('query') as string;
 
     if (query === '') {
-      toast.error('Будь ласка, введіть запит для пошуку..'); // Please enter your search query
+      toast.error('Будь ласка, введіть запит для пошуку..');
       return;
     }
 
@@ -35,7 +35,6 @@ export default function SearchBar({ onSubmit }: SearchBarProps) {
             name="query"
             autoComplete="off"
             placeholder="Пошук  фільмів..."
-            // Search movies
             autoFocus
           />
           <button className={css.button} type="submit">

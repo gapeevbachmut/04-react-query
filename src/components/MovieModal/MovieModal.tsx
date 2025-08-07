@@ -26,7 +26,6 @@ export default function MovieModal({ onClose, movie }: MovieModalProps) {
     document.body.style.overflow = 'hidden';
 
     return () => {
-      //  очищення стану обраного фільму                  ???
       document.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = '';
     };
@@ -39,8 +38,6 @@ export default function MovieModal({ onClose, movie }: MovieModalProps) {
       role="dialog"
       aria-modal="true"
     >
-      {/* як передати  */}
-      {/* {({ id, backdrop_path, title, overview, release_date, vote_average }) => ()} */}
       <div className={css.modal}>
         <button
           className={css.closeButton}

@@ -11,12 +11,8 @@ import MovieGrid from '../MovieGrid/MovieGrid';
 import Loader from '../Loader/Loader';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import MovieModal from '../MovieModal/MovieModal';
-import { useEffect } from 'react';
 
 export default function App() {
-  const [movies, setMovies] = useState<Movie[]>([]);
-  const [isLoadingLoader, setIsLoadingLoader] = useState(false);
-  const [isErrorRequest, setIsErrorRequest] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState<Movie | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
@@ -25,43 +21,22 @@ export default function App() {
     setIsModalOpen(null);
   };
 
-  const { data, isSuccess } = useQuery({
+  const { data, isLoading, isError, isSuccess } = useQuery({
     queryKey: ['movies', searchQuery, currentPage],
     queryFn: () => fetchMovies(searchQuery, currentPage),
-    enabled: !searchQuery,
+    enabled: !!searchQuery,
     placeholderData: keepPreviousData,
   });
 
-  useEffect(() => {
-    if (data) setMovies(data.results);
-  }, [data]);
-
   const totalPages = data?.total_pages || 0;
 
-  const handleSearchBar = async (query: string) => {
-    // console.log('input - ', query);
-
-    try {
-      setIsLoadingLoader(true);
-      setIsErrorRequest(false);
-      setMovies([]);
-
-      const responce = await fetchMovies(query, currentPage);
-
-      // if (responce === 0) {
-      //   toast.error('За вашим запитом фільмів не знайдено.');
-      //   // console.log('No movies found for your request.');
-      // }
-      // console.log('responce', responce);
-      setSearchQuery(query);
-      setCurrentPage(1);
-      setMovies(responce.results);
-    } catch {
-      toast.error(`Виникла помилка під час запиту на сервер.`); // Error while requesting movies
-      setIsErrorRequest(true);
-    } finally {
-      setIsLoadingLoader(false);
+  const handleSearchBar = (query: string) => {
+    if (query.trim() === '') {
+      toast.error('Введіть запит для пошуку');
+      return;
     }
+    setSearchQuery(query);
+    setCurrentPage(1);
   };
 
   return (
@@ -76,27 +51,31 @@ export default function App() {
       </a>
 
       <SearchBar onSubmit={handleSearchBar} />
-      {isSuccess && totalPages > 1 && (
-        <ReactPaginate
-          pageCount={totalPages}
-          pageRangeDisplayed={5}
-          marginPagesDisplayed={1}
-          onPageChange={({ selected }) => setCurrentPage(selected + 1)}
-          forcePage={currentPage - 1}
-          containerClassName={css.pagination}
-          activeClassName={css.active}
-          nextLabel="→"
-          previousLabel="←"
-        />
+      {isLoading && <Loader />}
+      {isError && <ErrorMessage />}
+      {isSuccess && data.results.length > 0 && (
+        <>
+          {totalPages > 1 && (
+            <ReactPaginate
+              pageCount={totalPages}
+              pageRangeDisplayed={5}
+              marginPagesDisplayed={1}
+              onPageChange={({ selected }) => setCurrentPage(selected + 1)}
+              forcePage={currentPage - 1}
+              containerClassName={css.pagination}
+              activeClassName={css.active}
+              nextLabel="→"
+              previousLabel="←"
+            />
+          )}
+          <MovieGrid
+            movies={data.results}
+            onSelect={movie => setIsModalOpen(movie)}
+          />
+        </>
       )}
 
-      {isLoadingLoader && <Loader />}
-
-      {isErrorRequest && <ErrorMessage />}
       {isModalOpen && <MovieModal movie={isModalOpen} onClose={closeModal} />}
-      {movies.length > 0 && (
-        <MovieGrid movies={movies} onSelect={movie => setIsModalOpen(movie)} />
-      )}
       <Toaster />
     </>
   );

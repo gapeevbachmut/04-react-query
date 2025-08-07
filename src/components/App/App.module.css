@@ -25,12 +25,15 @@
 }
 
 h1 {
-  text-align: center;
+  text-align: end;
+  margin-right: 250px;
 }
 
 a {
   text-decoration: none;
-  color: #007bff;
+  /* color: #007bff; */
+  /* color: chartreuse */
+  color: wheat
 }
 
 .pagination {

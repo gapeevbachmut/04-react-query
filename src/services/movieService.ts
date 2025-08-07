@@ -17,7 +17,7 @@ export const fetchMovies = async (
       query,
       include_adult: false,
       language: 'en-US',
-      page: 1,
+      page,
       perPage: 15,
     },
     headers: {
@@ -29,11 +29,7 @@ export const fetchMovies = async (
   const responce = await axios.get<MovieResponce>(
     `https://api.themoviedb.org/3/search/movie`,
     config
-    //?query=${query}
   );
-  console.log(responce.data.results); // масив за пошуком
-  console.log(responce.data); // масив за пошуком
 
-  // return responce.data.results;
   return responce.data;
 };
